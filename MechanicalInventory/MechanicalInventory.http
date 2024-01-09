@@ -1,0 +1,6 @@
+@MechanicalInventory_HostAddress = http://localhost:5245
+
+GET {{MechanicalInventory_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
