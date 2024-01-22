@@ -1,7 +1,6 @@
 ﻿using MechanicalInventory.Handlers;
 using MechanicalInventory.Models;
 using MechanicalInventory.Services;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MechanicalInventory.Controllers
@@ -13,7 +12,7 @@ namespace MechanicalInventory.Controllers
         private readonly IUserService _userService;
         private readonly ILogger<AuthorizationController> _logger;
         private readonly IConfiguration _configuration;
-        public AuthorizationController(IUserService userService, ILogger<AuthorizationController> logger, IConfiguration configuration) 
+        public AuthorizationController(IUserService userService, ILogger<AuthorizationController> logger, IConfiguration configuration)
         {
             _userService = userService;
             _logger = logger;
@@ -22,9 +21,9 @@ namespace MechanicalInventory.Controllers
 
         [HttpPost]
         [Route("login")]
-        public async Task<IActionResult> Login([FromBody] UserCredential userCredential) 
+        public async Task<IActionResult> Login([FromBody] UserCredential userCredential)
         {
-            try 
+            try
             {
                 if (userCredential != null)
                 {
@@ -39,7 +38,7 @@ namespace MechanicalInventory.Controllers
                             _logger.LogInformation("JWT token generated successfully.");
                             return Ok(token);
                         }
-                        else 
+                        else
                         {
                             _logger.LogError("Unauthorized. User is in-active.");
                             return NotFound();
@@ -51,13 +50,13 @@ namespace MechanicalInventory.Controllers
                         return Unauthorized();
                     }
                 }
-                else 
+                else
                 {
                     _logger.LogError("User credentials are invalid.");
                     return BadRequest();
                 }
             }
-            catch(Exception ex) 
+            catch (Exception ex)
             {
                 _logger.LogError(ex.Message);
                 return BadRequest(ex.Message);

@@ -10,12 +10,14 @@ builder.Services.AddControllers();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddCors(cors => cors.AddDefaultPolicy(build => {
+builder.Services.AddCors(cors => cors.AddDefaultPolicy(build =>
+{
     build.WithOrigins("*").AllowAnyMethod().AllowAnyHeader();
 }));
 builder.Services.AddSingleton<DataContext>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IBajajService, BajajService>();
+builder.Services.AddScoped<ITvsService, TvsService>();
 
 var app = builder.Build();
 
@@ -24,6 +26,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
 
 app.UseCors();
 

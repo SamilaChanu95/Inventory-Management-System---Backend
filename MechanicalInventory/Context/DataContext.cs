@@ -1,5 +1,4 @@
-﻿using MechanicalInventory.Models;
-using Microsoft.Data.SqlClient;
+﻿using Microsoft.Data.SqlClient;
 using System.Data;
 
 namespace MechanicalInventory.Context

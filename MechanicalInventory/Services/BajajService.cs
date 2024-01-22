@@ -8,7 +8,7 @@ namespace MechanicalInventory.Services
     public class BajajService : IBajajService
     {
         private readonly DataContext _dataContext;
-        public BajajService(DataContext dataContext) 
+        public BajajService(DataContext dataContext)
         {
             _dataContext = dataContext;
         }
@@ -24,27 +24,27 @@ namespace MechanicalInventory.Services
             parameters.Add("sellingPrice", bajajProduct.SellingPrice, DbType.Decimal);
             parameters.Add("purchasePrice", bajajProduct.PurchasePrice, DbType.Decimal);
 
-            using (var connection = _dataContext.CreateDbConnection()) 
+            using (var connection = _dataContext.CreateDbConnection())
             {
                 var result = await connection.ExecuteAsync(sql, parameters);
-                return (result > 0) ? true : false;   
+                return (result > 0) ? true : false;
             }
         }
 
         public async Task<bool> DeleteBajajProduct(int id)
         {
             var sql = $"DELETE FROM [bajajProduct] WHERE id = '{id}';";
-            using (var connection = _dataContext.CreateDbConnection()) 
+            using (var connection = _dataContext.CreateDbConnection())
             {
                 var result = await connection.ExecuteAsync(sql);
-                return (result > 0)? true : false; 
+                return (result > 0) ? true : false;
             }
         }
 
         public async Task<BajajProduct> GetBajajProduct(int id)
         {
             var sql = $"SELECT * FROM [bajajProduct] WHERE id = '{id}';";
-            using (var connection = _dataContext.CreateDbConnection()) 
+            using (var connection = _dataContext.CreateDbConnection())
             {
                 var bajajProduct = await connection.QueryFirstOrDefaultAsync<BajajProduct>(sql);
                 return bajajProduct;
@@ -54,9 +54,9 @@ namespace MechanicalInventory.Services
         public async Task<List<BajajProduct>> GetBajajProductsList()
         {
             var sql = "SELECT * FROM [bajajProduct] ORDER BY id DESC;";
-            using (var connection = _dataContext.CreateDbConnection()) 
+            using (var connection = _dataContext.CreateDbConnection())
             {
-                var productList = await connection.QueryAsync<BajajProduct>(sql); 
+                var productList = await connection.QueryAsync<BajajProduct>(sql);
                 return productList.ToList();
             }
         }
@@ -64,7 +64,7 @@ namespace MechanicalInventory.Services
         public async Task<bool> IsExistProduct(int id)
         {
             var sql = $"SELECT id FROM [bajajProduct] WHERE id = '{id}';";
-            using (var connection = _dataContext.CreateDbConnection()) 
+            using (var connection = _dataContext.CreateDbConnection())
             {
                 var result = await connection.QueryFirstOrDefaultAsync(sql);
                 return (result != null) ? true : false;
