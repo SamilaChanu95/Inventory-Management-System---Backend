@@ -18,6 +18,8 @@ builder.Services.AddSingleton<DataContext>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IBajajService, BajajService>();
 builder.Services.AddScoped<ITvsService, TvsService>();
+builder.Services.AddScoped<IHondaService, HondaService>();
+builder.Services.AddScoped<IHeroService, HeroService>();
 
 var app = builder.Build();
 

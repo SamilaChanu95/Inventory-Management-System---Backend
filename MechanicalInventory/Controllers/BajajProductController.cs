@@ -30,12 +30,12 @@ namespace MechanicalInventory.Controllers
                 }
 
                 var result = await _bajajService.GetBajajProductsList();
-                _logger.LogInformation("Successfully got the products list.");
+                _logger.LogInformation("Successfully got the Bajaj products list.");
                 return Ok(result);
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Error in loading products list. Error: {ex.Message}");
+                _logger.LogError($"Error in loading Bajaj products list. Error: {ex.Message}");
                 return BadRequest(ex.Message);
             }
         }
@@ -53,12 +53,12 @@ namespace MechanicalInventory.Controllers
                 }
 
                 var result = await _bajajService.AddBajajProduct(bajajProduct);
-                _logger.LogInformation("Successfully added new product.");
+                _logger.LogInformation("Successfully added new Bajaj product.");
                 return Ok(result);
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Error in adding new product. Error: {ex.Message}");
+                _logger.LogError($"Error in adding new Bajaj product. Error: {ex.Message}");
                 return BadRequest(ex.Message);
             }
         }
@@ -78,18 +78,18 @@ namespace MechanicalInventory.Controllers
                 if (await _bajajService.IsExistProduct(id))
                 {
                     var result = await _bajajService.GetBajajProduct(id);
-                    _logger.LogInformation("Successfully got the required product.");
+                    _logger.LogInformation($"Successfully got the Bajaj product with id : {id}");
                     return Ok(result);
                 }
                 else
                 {
-                    _logger.LogError("Requested product doesn't exist.");
-                    return NotFound();
+                    _logger.LogError("Requested Bajaj product doesn't exist.");
+                    return NotFound("Requested Bajaj product doesn't exist.");
                 }
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Error in getting product. Error: {ex.Message}");
+                _logger.LogError($"Error in getting the Bajaj product. Error: {ex.Message}");
                 return BadRequest(ex.Message);
             }
         }
@@ -109,18 +109,18 @@ namespace MechanicalInventory.Controllers
                 if (await _bajajService.IsExistProduct(id))
                 {
                     var result = await _bajajService.DeleteBajajProduct(id);
-                    _logger.LogInformation("Successfully deleted the required product.");
+                    _logger.LogInformation($"Successfully deleted existing Bajaj product with id : {id}");
                     return Ok(result);
                 }
                 else
                 {
-                    _logger.LogError("Requested product doesn't exist.");
-                    return NotFound();
+                    _logger.LogError("Requested Bajaj product doesn't exist.");
+                    return NotFound("Requested Bajaj product doesn't exist.");
                 }
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Error in deleting product. Error: {ex.Message}");
+                _logger.LogError($"Error in deleting existing Bajaj product. Error: {ex.Message}");
                 return BadRequest(ex.Message);
             }
         }
@@ -140,18 +140,18 @@ namespace MechanicalInventory.Controllers
                 if (await _bajajService.IsExistProduct(bajajProduct.Id))
                 {
                     var result = await _bajajService.UpdateBajajProduct(bajajProduct);
-                    _logger.LogInformation("Successfully updated the existing product.");
+                    _logger.LogInformation("Successfully updated existing Bajaj product.");
                     return Ok(result);
                 }
                 else
                 {
-                    _logger.LogError("Requested product doesn't exist.");
+                    _logger.LogError("Requested Bajaj product doesn't exist.");
                     return NotFound();
                 }
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Error in updating existing product. Error: {ex.Message}");
+                _logger.LogError($"Error in updating existing Bajaj product. Error: {ex.Message}");
                 return BadRequest(ex.Message);
             }
         }

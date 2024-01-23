@@ -6,20 +6,19 @@ namespace MechanicalInventory.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class TvsController : ControllerBase
+    public class HondaController : ControllerBase
     {
-        private readonly ILogger<TvsController> _logger;
-        private readonly ITvsService _tvsService;
-
-        public TvsController(ITvsService tvsService, ILogger<TvsController> logger)
+        private readonly IHondaService _hondaService;
+        private readonly ILogger<HondaController> _logger;
+        public HondaController(IHondaService hondaService, ILogger<HondaController> logger)
         {
-            _tvsService = tvsService;
+            _hondaService = hondaService;
             _logger = logger;
         }
 
         [HttpGet]
         [Route("get-products-list")]
-        public async Task<IActionResult> GetTvsProductsList()
+        public async Task<ActionResult> GetHondaProductsList()
         {
             try
             {
@@ -29,29 +28,28 @@ namespace MechanicalInventory.Controllers
                     return BadRequest(ModelState);
                 }
 
-                var result = await _tvsService.GetTvsProductsList();
+                var result = await _hondaService.GetProductList();
                 if (result == null)
                 {
-                    _logger.LogInformation("Tvs product list is empty.");
-                    // return Ok(new HttpResponseMessage() {  StatusCode = HttpStatusCode.OK ,Content = new StringContent("Product list is empty.") });
-                    return Ok("Product list is empty.");
+                    _logger.LogInformation("Honda product list is empty.");
+                    return Ok("Honda product list is empty.");
                 }
                 else
                 {
-                    _logger.LogInformation("Successfully got the Tvs product list.");
+                    _logger.LogInformation("Successfully got the Honda product list.");
                     return Ok(result);
                 }
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Error in loading Tvs products list. Error: {ex.Message}");
+                _logger.LogError($"Error in loading Honda product list. Error: {ex.Message}");
                 return BadRequest(ex.Message);
             }
         }
 
         [HttpGet]
         [Route("get-product/{id:int}")]
-        public async Task<IActionResult> GetTvsProduct([FromRoute] int id)
+        public async Task<ActionResult> GetHondaProduct([FromRoute] int id)
         {
             try
             {
@@ -61,28 +59,28 @@ namespace MechanicalInventory.Controllers
                     return BadRequest(ModelState);
                 }
 
-                if (await _tvsService.IsExistsProduct(id))
+                if (await _hondaService.IsExistsProduct(id))
                 {
-                    var tvsProduct = await _tvsService.GetTvsProduct(id);
-                    _logger.LogInformation($"Successfully got the Tvs product with id : {id}");
-                    return Ok(tvsProduct);
+                    var result = await _hondaService.GetProduct(id);
+                    _logger.LogInformation($"Successfully got the Honda product with id : {id}");
+                    return Ok(result);
                 }
                 else
                 {
-                    _logger.LogError("Requested Tvs product doesn't exists.");
-                    return NotFound("Requested Tvs product doesn't exists.");
+                    _logger.LogInformation("Requested Honda product doesn't exists.");
+                    return NotFound("Requested Honda product doesn't exists.");
                 }
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Error in getting the Tvs product. Error: {ex.Message}");
+                _logger.LogError($"Error in getting the Honda product. Error: {ex.Message}");
                 return BadRequest(ex.Message);
             }
         }
 
         [HttpPost]
         [Route("add-product")]
-        public async Task<IActionResult> AddTvsProduct([FromBody] TvsProduct tvsProduct)
+        public async Task<ActionResult> AddHondaProduct([FromBody] HondaProduct hondaProduct)
         {
             try
             {
@@ -92,20 +90,20 @@ namespace MechanicalInventory.Controllers
                     return BadRequest(ModelState);
                 }
 
-                var result = await _tvsService.AddTvsProduct(tvsProduct);
-                _logger.LogInformation("Suceesfully added new Tvs product.");
+                var result = await _hondaService.AddProduct(hondaProduct);
+                _logger.LogInformation($"Successfully added new Honda product.");
                 return Ok(result);
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Error in adding new Tvs product. Error: {ex.Message}");
+                _logger.LogError($"Error in adding new Honda product. Error: {ex.Message}");
                 return BadRequest(ex.Message);
             }
         }
 
         [HttpPut]
         [Route("update-product")]
-        public async Task<IActionResult> UpdateTvsProduct([FromBody] TvsProduct tvsProduct)
+        public async Task<ActionResult> UpdateHondaProduct([FromBody] HondaProduct hondaProduct)
         {
             try
             {
@@ -115,20 +113,20 @@ namespace MechanicalInventory.Controllers
                     return BadRequest(ModelState);
                 }
 
-                var result = await _tvsService.UpdateTvsProduct(tvsProduct);
-                _logger.LogInformation("Suceesfully updated existing Tvs product.");
+                var result = await _hondaService.UpdateProduct(hondaProduct);
+                _logger.LogInformation($"Successfully updated existing Honda product.");
                 return Ok(result);
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Error in updating existing Tvs product. Error: {ex.Message}");
+                _logger.LogError($"Error in updating existing Honda product. Error: {ex.Message}");
                 return BadRequest(ex.Message);
             }
         }
 
         [HttpDelete]
         [Route("delete-product/{id:int}")]
-        public async Task<IActionResult> DeleteTvsProduct([FromRoute] int id)
+        public async Task<ActionResult> DeleteHondaProduct([FromRoute] int id)
         {
             try
             {
@@ -138,24 +136,24 @@ namespace MechanicalInventory.Controllers
                     return BadRequest(ModelState);
                 }
 
-                if (await _tvsService.IsExistsProduct(id))
+                if (await _hondaService.IsExistsProduct(id))
                 {
-                    var result = await _tvsService.DeleteTvsProduct(id);
-                    _logger.LogInformation($"Successfully deleted existing Tvs product with id : {id}");
+                    var result = await _hondaService.DeleteProduct(id);
+                    _logger.LogInformation($"Successfully deleted existing Honda product with id : {id}");
                     return Ok(result);
                 }
                 else
                 {
-                    _logger.LogError("Requested Tvs product doesn't exists.");
-                    return NotFound("Requested Tvs product doesn't exists.");
+                    _logger.LogInformation("Requested Honda product doesn't exists.");
+                    return NotFound("Requested Honda product doesn't exists.");
                 }
-
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Error in deleting existing Tvs product. Error: {ex.Message}");
+                _logger.LogError($"Error in deleting existing Honda product. Error: {ex.Message}");
                 return BadRequest(ex.Message);
             }
         }
     }
 }
+
