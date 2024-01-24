@@ -133,7 +133,7 @@ namespace MechanicalInventory.Controllers
                 if (!ModelState.IsValid)
                 {
                     _logger.LogError("Model state is not valid.");
-                    return BadRequest(ModelState);
+                    return BadRequest("Model state is not valid.");
                 }
 
                 if (await _hondaService.IsExistsProduct(id))

@@ -20,6 +20,12 @@ builder.Services.AddScoped<IBajajService, BajajService>();
 builder.Services.AddScoped<ITvsService, TvsService>();
 builder.Services.AddScoped<IHondaService, HondaService>();
 builder.Services.AddScoped<IHeroService, HeroService>();
+builder.Services.AddScoped<IYamahaService, YamahaService>();
+builder.Services.AddScoped<IKtmService, KtmService>();
+builder.Services.AddScoped<IMahindraService, MahindraService>();
+builder.Services.AddScoped<IKawasakiService, KawasakiService>();
+builder.Services.AddScoped<ISuzukiService, SuzukiService>();
+builder.Services.AddScoped<IDemarkService, DemarkService>();
 
 var app = builder.Build();
 
