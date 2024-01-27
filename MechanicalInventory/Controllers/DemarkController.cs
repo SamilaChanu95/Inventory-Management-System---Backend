@@ -2,10 +2,13 @@
 using MechanicalInventory.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
 
 namespace MechanicalInventory.Controllers
 {
     [Route("api/[controller]")]
+    [EnableRateLimiting("Api")]
+    /*[EnableRateLimiting("rateLimitPolicy")]*/
     [ApiController]
     public class DemarkController : ControllerBase
     {

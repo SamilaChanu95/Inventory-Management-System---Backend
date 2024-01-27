@@ -2,10 +2,12 @@
 using MechanicalInventory.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
 
 namespace MechanicalInventory.Controllers
 {
     [Route("api/[controller]")]
+    [EnableRateLimiting("Api")]
     [ApiController]
     public class YamahaController : ControllerBase
     {
