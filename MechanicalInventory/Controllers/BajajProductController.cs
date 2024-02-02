@@ -1,4 +1,5 @@
 ﻿using MechanicalInventory.Models;
+using MechanicalInventory.Models.RateLimiter;
 using MechanicalInventory.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.RateLimiting;
@@ -6,21 +7,26 @@ using Microsoft.AspNetCore.RateLimiting;
 namespace MechanicalInventory.Controllers
 {
     [Route("api/[controller]")]
-    [EnableRateLimiting("Api")]
     [ApiController]
+    [EnableRateLimiting(policyName: "fixed-rate-limiter")]
     public class BajajProductController : ControllerBase
     {
         private readonly IBajajService _bajajService;
         private readonly ILogger<BajajProductController> _logger;
+        private readonly IConfiguration _configuration;
+        private string rateLimiter;
 
-        public BajajProductController(IBajajService bajajService, ILogger<BajajProductController> logger)
+        public BajajProductController(IBajajService bajajService, ILogger<BajajProductController> logger, IConfiguration configuration)
         {
             _bajajService = bajajService;
             _logger = logger;
+            _configuration = configuration;
+            rateLimiter = _configuration.GetSection("RateLimit:0:FixedWindow:PolicyName").Value ?? "not-content";
         }
 
         [HttpGet]
         [Route("get-products-list")]
+        [EnableRateLimiting(policyName: "concurrency-limiter")]
         public async Task<IActionResult> GetProductsList()
         {
             try

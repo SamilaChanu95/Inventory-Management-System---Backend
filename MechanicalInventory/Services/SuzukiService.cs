@@ -7,7 +7,7 @@ namespace MechanicalInventory.Services
     public class SuzukiService : ISuzukiService
     {
         private readonly DataContext _dataContext;
-        public SuzukiService(DataContext dataContext) 
+        public SuzukiService(DataContext dataContext)
         {
             _dataContext = dataContext;
         }

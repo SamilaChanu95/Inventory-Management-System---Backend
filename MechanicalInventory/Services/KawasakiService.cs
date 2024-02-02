@@ -7,7 +7,7 @@ namespace MechanicalInventory.Services
     public class KawasakiService : IKawasakiService
     {
         private readonly DataContext _dataContext;
-        public KawasakiService(DataContext dataContext) 
+        public KawasakiService(DataContext dataContext)
         {
             _dataContext = dataContext;
         }

@@ -1,13 +1,41 @@
 using MechanicalInventory.Context;
+using MechanicalInventory.Models.RateLimiter;
 using MechanicalInventory.Services;
 using Microsoft.AspNetCore.RateLimiting;
+using System.Threading.RateLimiting;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
+//builder.Services.Configure<RateLimiterOptions>(builder.Configuration.GetSection("RateLimit"));
+
+var FixedWindowLimiter = builder.Configuration.GetSection("RateLimit:0:FixedWindow").Get<FixedWindowOptions>();
+var ConcurrencyLimiter = builder.Configuration.GetSection("RateLimit:1:Concurrency").Get<ConcurrencyOptions>();
+string CORSPolicy = builder.Configuration.GetSection("CORS:AllowAllPolicy:PolicyName").Value ?? "no-policy";
+
 builder.Host.UseSerilog((context, configuration) => configuration.ReadFrom.Configuration(context.Configuration));
 
-builder.Services.AddRateLimiter(opt =>
+builder.Services.AddRateLimiter(_limiter => {
+    _limiter.AddFixedWindowLimiter(policyName: FixedWindowLimiter.PolicyName , options =>
+    {
+        options.PermitLimit = FixedWindowLimiter.PermitLimit;
+        options.Window = TimeSpan.FromSeconds(FixedWindowLimiter.WindowTime);
+        options.QueueLimit = FixedWindowLimiter.QueueLimit;
+        options.QueueProcessingOrder = QueueProcessingOrder.OldestFirst;
+    });
+});
+
+builder.Services.AddRateLimiter(_limiter =>
+{
+    _limiter.AddConcurrencyLimiter(policyName: ConcurrencyLimiter.PolicyName, options =>
+    {
+        options.PermitLimit = ConcurrencyLimiter.PermitLimit;
+        options.QueueLimit = ConcurrencyLimiter.QueueLimit;
+        options.QueueProcessingOrder = QueueProcessingOrder.OldestFirst;
+    });
+});
+
+/*builder.Services.AddRateLimiter(opt =>
 {
     opt.AddFixedWindowLimiter("Api", opt =>
     {
@@ -18,7 +46,7 @@ builder.Services.AddRateLimiter(opt =>
         opt.AutoReplenishment = true;
     });
     opt.RejectionStatusCode = 429; // HTTP 429 Too Many Requests;
-});
+});*/
 
 // var rateLimitPolicy = Policy.RateLimitAsync(2,TimeSpan.FromSeconds(30));
 
@@ -26,10 +54,18 @@ builder.Services.AddControllers();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddCors(cors => cors.AddDefaultPolicy(build =>
+
+builder.Services.AddCors(cors => cors.AddPolicy(name: CORSPolicy, 
+    policy => {
+        policy.WithOrigins("http://localhost:4200");
+    }
+));
+
+/*builder.Services.AddCors(cors => cors.AddDefaultPolicy(build =>
 {
     build.WithOrigins("*").AllowAnyMethod().AllowAnyHeader();
-}));
+}));*/
+
 builder.Services.AddSingleton<DataContext>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IBajajService, BajajService>();
@@ -51,8 +87,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-
-app.UseCors();
+app.UseCors(CORSPolicy);
 
 // Custom Middleware to use the Polly RateLimitPolicy
 /*app.Use(async (context, next) =>

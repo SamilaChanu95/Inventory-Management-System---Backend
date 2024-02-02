@@ -1,15 +1,14 @@
 ﻿using MechanicalInventory.Models;
 using MechanicalInventory.Services;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.RateLimiting;
 
 namespace MechanicalInventory.Controllers
 {
     [Route("api/[controller]")]
-    [EnableRateLimiting("Api")]
+    [EnableRateLimiting(policyName: "fixed-rate-limiter")]
     [ApiController]
-    public class MahindraController : ControllerBase
+    public class MahindraController : Ap
     {
         private readonly ILogger<MahindraController> _logger;
         private readonly IMahindraService _mahindraService;

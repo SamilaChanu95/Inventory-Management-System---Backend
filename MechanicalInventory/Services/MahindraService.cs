@@ -7,7 +7,7 @@ namespace MechanicalInventory.Services
     public class MahindraService : IMahindraService
     {
         private readonly DataContext _dataContext;
-        public MahindraService(DataContext dataContext) 
+        public MahindraService(DataContext dataContext)
         {
             _dataContext = dataContext;
         }

@@ -7,7 +7,7 @@ namespace MechanicalInventory.Services
     public class KtmService : IKtmService
     {
         private readonly DataContext _dataContext;
-        public KtmService(DataContext dataContext) 
+        public KtmService(DataContext dataContext)
         {
             _dataContext = dataContext;
         }

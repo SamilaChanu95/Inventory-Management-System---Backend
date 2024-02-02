@@ -7,7 +7,7 @@ namespace MechanicalInventory.Services
     public class DemarkService : IDemarkService
     {
         private readonly DataContext _dataContext;
-        public DemarkService(DataContext dataContext) 
+        public DemarkService(DataContext dataContext)
         {
             _dataContext = dataContext;
         }

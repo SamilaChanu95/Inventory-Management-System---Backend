@@ -1,20 +1,18 @@
 ﻿using MechanicalInventory.Models;
 using MechanicalInventory.Services;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.RateLimiting;
 
 namespace MechanicalInventory.Controllers
 {
     [Route("api/[controller]")]
-    [EnableRateLimiting("Api")]
-    /*[EnableRateLimiting("rateLimitPolicy")]*/
+    [EnableRateLimiting(policyName: "fixed-rate-limiter")]
     [ApiController]
     public class DemarkController : ControllerBase
     {
         private readonly ILogger<DemarkController> _logger;
         private readonly IDemarkService _demarkService;
-        public DemarkController(ILogger<DemarkController> logger, IDemarkService demarkService) 
+        public DemarkController(ILogger<DemarkController> logger, IDemarkService demarkService)
         {
             _logger = logger;
             _demarkService = demarkService;
@@ -22,11 +20,11 @@ namespace MechanicalInventory.Controllers
 
         [HttpGet]
         [Route("get-product-list")]
-        public async Task<IActionResult> GetDemarkProductsList() 
+        public async Task<IActionResult> GetDemarkProductsList()
         {
-            try 
+            try
             {
-                if (!ModelState.IsValid) 
+                if (!ModelState.IsValid)
                 {
                     _logger.LogError("Model state is not valid.");
                     return BadRequest("Model state is not valid.");
@@ -37,13 +35,13 @@ namespace MechanicalInventory.Controllers
                     _logger.LogInformation("Demark products list is empty.");
                     return Ok("Demark products list is empty.");
                 }
-                else 
+                else
                 {
                     _logger.LogInformation("Successfully got the Demark products list.");
                     return Ok(result);
                 }
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
                 _logger.LogError($"Error in loading Demark product list. Error: {ex.Message}");
                 return BadRequest(ex.Message);

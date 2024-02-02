@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.RateLimiting;
 namespace MechanicalInventory.Controllers
 {
     [Route("api/[controller]")]
-    [EnableRateLimiting("Api")]
+    [EnableRateLimiting(policyName: "fixed-rate-limiter")]
     [ApiController]
     public class HondaController : ControllerBase
     {

@@ -1,19 +1,18 @@
 ﻿using MechanicalInventory.Models;
 using MechanicalInventory.Services;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.RateLimiting;
 
 namespace MechanicalInventory.Controllers
 {
     [Route("api/[controller]")]
-    [EnableRateLimiting("Api")]
+    [EnableRateLimiting(policyName: "fixed-rate-limiter")]
     [ApiController]
     public class KtmController : ControllerBase
     {
         private readonly ILogger<KtmController> _logger;
         private readonly IKtmService _ktmService;
-        public KtmController(ILogger<KtmController> logger, IKtmService ktmService) 
+        public KtmController(ILogger<KtmController> logger, IKtmService ktmService)
         {
             _ktmService = ktmService;
             _logger = logger;

@@ -1,13 +1,12 @@
 ﻿using MechanicalInventory.Models;
 using MechanicalInventory.Services;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.RateLimiting;
 
 namespace MechanicalInventory.Controllers
 {
     [Route("api/[controller]")]
-    [EnableRateLimiting("Api")]
+    [EnableRateLimiting(policyName: "fixed-rate-limiter")]
     [ApiController]
     public class YamahaController : ControllerBase
     {
@@ -83,11 +82,11 @@ namespace MechanicalInventory.Controllers
 
         [HttpPost]
         [Route("add-product")]
-        public async Task<IActionResult> AddYamahaProduct([FromBody] YamahaProduct yamahaProduct) 
+        public async Task<IActionResult> AddYamahaProduct([FromBody] YamahaProduct yamahaProduct)
         {
             try
             {
-                if (!ModelState.IsValid) 
+                if (!ModelState.IsValid)
                 {
                     _logger.LogError("Model state is not valid.");
                     return BadRequest(ModelState);
@@ -97,7 +96,7 @@ namespace MechanicalInventory.Controllers
                 _logger.LogInformation($"Successfully added new Yamaha product.");
                 return Ok(result);
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
                 _logger.LogError($"Error in adding new Yamaha product. Error: {ex.Message}");
                 return BadRequest(ex.Message);
@@ -110,7 +109,7 @@ namespace MechanicalInventory.Controllers
         {
             try
             {
-                if (!ModelState.IsValid) 
+                if (!ModelState.IsValid)
                 {
                     _logger.LogError("Model state is not vaild.");
                     return BadRequest("Model state is not vaild.");
@@ -122,7 +121,7 @@ namespace MechanicalInventory.Controllers
                     _logger.LogInformation($"Successfully deleted existing Yamaha product with id : {id}");
                     return Ok(result);
                 }
-                else 
+                else
                 {
                     _logger.LogInformation("Requested Yamaha product doesn't exists.");
                     return NotFound("Requested Yamaha product doesn't exists.");
@@ -141,20 +140,20 @@ namespace MechanicalInventory.Controllers
         {
             try
             {
-                if (!ModelState.IsValid) 
+                if (!ModelState.IsValid)
                 {
                     _logger.LogError("Model state is not valid.");
                     return BadRequest("Model state is not valid.");
                 }
 
                 int productId = yamahaProduct.Id;
-                if (await _yamahaService.IsExistsProduct(productId)) 
+                if (await _yamahaService.IsExistsProduct(productId))
                 {
                     var result = await _yamahaService.UpdateProduct(yamahaProduct);
                     _logger.LogInformation("Successfully updated existing Yamaha product.");
                     return Ok(result);
                 }
-                else 
+                else
                 {
                     _logger.LogInformation("Requested Yamaha product doesn't exists.");
                     return NotFound("Requested Yamaha product doesn't exists.");

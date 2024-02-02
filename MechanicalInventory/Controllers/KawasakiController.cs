@@ -1,13 +1,12 @@
 ﻿using MechanicalInventory.Models;
 using MechanicalInventory.Services;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.RateLimiting;
 
 namespace MechanicalInventory.Controllers
 {
     [Route("api/[controller]")]
-    [EnableRateLimiting("Api")]
+    [EnableRateLimiting(policyName: "fixed-rate-limiter")]
     [ApiController]
     public class KawasakiController : ControllerBase
     {
