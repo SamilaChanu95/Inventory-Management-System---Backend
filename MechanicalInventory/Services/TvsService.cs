@@ -25,7 +25,7 @@ namespace MechanicalInventory.Services
             parameters.Add("sellingPrice", tvsProduct.SellingPrice, DbType.Decimal);
             parameters.Add("purchasePrice", tvsProduct.PurchasePrice, DbType.Decimal);*/
 
-            var product = new TvsProduct() { TvsCode = tvsProduct.TvsCode, ProductName = tvsProduct.ProductName, ManufacturerName = tvsProduct.ManufacturerName, ManufacturerYear = tvsProduct.ManufacturerYear, Quantity = tvsProduct.Quantity, QualityLevel = tvsProduct.QualityLevel, SellingPrice = tvsProduct.SellingPrice, PurchasePrice = tvsProduct.PurchasePrice };
+            var product = new TvsProduct() { TvsCode = tvsProduct.ProductCode, ProductName = tvsProduct.ProductName, ManufacturerName = tvsProduct.ManufacturerName, ManufacturerYear = tvsProduct.ManufacturerYear, Quantity = tvsProduct.Quantity, QualityLevel = tvsProduct.QualityLevel, SellingPrice = tvsProduct.SellingPrice, PurchasePrice = tvsProduct.PurchasePrice };
 
             using (var connection = _dataContext.CreateDbConnection())
             {
@@ -47,7 +47,7 @@ namespace MechanicalInventory.Services
 
         public async Task<TvsProduct> GetTvsProduct(int id)
         {
-            var sql = $"SELECT * FROM [tvsProduct] WHERE [id] = '{id}';";
+            var sql = $"SELECT *, [tvsCode] AS productCode FROM [tvsProduct] WHERE [id] = '{id}';";
             using (var connection = _dataContext.CreateDbConnection())
             {
                 var result = await connection.QueryFirstOrDefaultAsync<TvsProduct>(sql);
@@ -57,7 +57,7 @@ namespace MechanicalInventory.Services
 
         public async Task<List<TvsProduct>> GetTvsProductsList()
         {
-            var sql = "SELECT * FROM [tvsProduct] ORDER BY [id] DESC;";
+            var sql = "SELECT *, [tvsCode] AS productCode FROM [tvsProduct] ORDER BY [id] DESC;";
             using (var connection = _dataContext.CreateDbConnection())
             {
                 var result = await connection.QueryAsync<TvsProduct>(sql);
@@ -78,7 +78,7 @@ namespace MechanicalInventory.Services
         public async Task<bool> UpdateTvsProduct(TvsProduct tvsProduct)
         {
             var sql = "UPDATE [tvsProduct] SET [tvsCode] = @tvsCode, [productName] = @productName, [manufacturerName] = @manufacturerName, [manufacturerYear] = @manufacturerYear, [quantity] = @quantity, [qualityLevel] = @qualityLevel, [sellingPrice] = @sellingPrice, [purchasePrice] = @purchasePrice WHERE [id] = @id;";
-            var product = new TvsProduct() { Id = tvsProduct.Id, ProductName = tvsProduct.ProductName, TvsCode = tvsProduct.TvsCode, ManufacturerName = tvsProduct.ManufacturerName, ManufacturerYear = tvsProduct.ManufacturerYear, Quantity = tvsProduct.Quantity, QualityLevel = tvsProduct.QualityLevel, SellingPrice = tvsProduct.SellingPrice, PurchasePrice = tvsProduct.PurchasePrice };
+            var product = new TvsProduct() { Id = tvsProduct.Id, ProductName = tvsProduct.ProductName, TvsCode = tvsProduct.ProductCode, ManufacturerName = tvsProduct.ManufacturerName, ManufacturerYear = tvsProduct.ManufacturerYear, Quantity = tvsProduct.Quantity, QualityLevel = tvsProduct.QualityLevel, SellingPrice = tvsProduct.SellingPrice, PurchasePrice = tvsProduct.PurchasePrice };
             using (var connection = _dataContext.CreateDbConnection())
             {
                 var result = await connection.ExecuteAsync(sql, product);

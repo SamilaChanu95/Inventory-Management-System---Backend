@@ -16,7 +16,7 @@ namespace MechanicalInventory.Services
         public async Task<bool> AddProduct(HeroProduct heroProduct)
         {
             var sql = "INSERT INTO [heroProduct]([heroCode],[productName],[manufacturerYear],[quantity],[qualityLevel],[sellingPrice],[purchasePrice]) VALUES (@heroCode,@productName,@manufacturerYear,@quantity,@qualityLevel,@sellingPrice,@purchasePrice);";
-            HeroProduct product = new HeroProduct() { HeroCode = heroProduct.HeroCode, ProductName = heroProduct.ProductName, ManufacturerYear = heroProduct.ManufacturerYear, Quantity = heroProduct.Quantity, QualityLevel = heroProduct.QualityLevel, PurchasePrice = heroProduct.PurchasePrice, SellingPrice = heroProduct.SellingPrice };
+            HeroProduct product = new HeroProduct() { HeroCode = heroProduct.ProductCode, ProductName = heroProduct.ProductName, ManufacturerYear = heroProduct.ManufacturerYear, Quantity = heroProduct.Quantity, QualityLevel = heroProduct.QualityLevel, PurchasePrice = heroProduct.PurchasePrice, SellingPrice = heroProduct.SellingPrice };
             using (var connection = _dataContext.CreateDbConnection())
             {
                 var result = await connection.ExecuteAsync(sql, product);
@@ -36,7 +36,7 @@ namespace MechanicalInventory.Services
 
         public async Task<HeroProduct> GetProduct(int id)
         {
-            var sql = $"SELECT * FROM [heroProduct] WHERE [id] = '{id}';";
+            var sql = $"SELECT *, [heroCode] AS productCode FROM [heroProduct] WHERE [id] = '{id}';";
             using (var connection = _dataContext.CreateDbConnection())
             {
                 HeroProduct result = await connection.QueryFirstOrDefaultAsync<HeroProduct>(sql) ?? new HeroProduct() { Id = 0 };
@@ -46,7 +46,7 @@ namespace MechanicalInventory.Services
 
         public async Task<List<HeroProduct>> GetProductList()
         {
-            var sql = $"SELECT * FROM [heroProduct] ORDER BY [id] DESC;";
+            var sql = $"SELECT *, [heroCode] AS productCode FROM [heroProduct] ORDER BY [id] DESC;";
             using (var connection = _dataContext.CreateDbConnection())
             {
                 var result = await connection.QueryAsync<HeroProduct>(sql);
@@ -67,7 +67,7 @@ namespace MechanicalInventory.Services
         public async Task<bool> UpdateProduct(HeroProduct heroProduct)
         {
             var sql = "UPDATE [heroProduct] SET [heroCode] = @heroCode, [productName] = @productName, [manufacturerYear] = @manufacturerYear, [quantity] = @quantity, [qualityLevel] = @qualityLevel, [sellingPrice] = @sellingPrice, [purchasePrice] = @purchasePrice WHERE [id] = @id;";
-            HeroProduct product = new HeroProduct() { Id = heroProduct.Id, HeroCode = heroProduct.HeroCode, ProductName = heroProduct.ProductName, ManufacturerYear = heroProduct.ManufacturerYear, Quantity = heroProduct.Quantity, QualityLevel = heroProduct.QualityLevel, PurchasePrice = heroProduct.PurchasePrice, SellingPrice = heroProduct.SellingPrice };
+            HeroProduct product = new HeroProduct() { Id = heroProduct.Id, HeroCode = heroProduct.ProductCode, ProductName = heroProduct.ProductName, ManufacturerYear = heroProduct.ManufacturerYear, Quantity = heroProduct.Quantity, QualityLevel = heroProduct.QualityLevel, PurchasePrice = heroProduct.PurchasePrice, SellingPrice = heroProduct.SellingPrice };
 
             using (var connection = _dataContext.CreateDbConnection())
             {

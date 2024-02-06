@@ -2,8 +2,8 @@ using MechanicalInventory.Context;
 using MechanicalInventory.Models.RateLimiter;
 using MechanicalInventory.Services;
 using Microsoft.AspNetCore.RateLimiting;
-using System.Threading.RateLimiting;
 using Serilog;
+using System.Threading.RateLimiting;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,8 +15,9 @@ string CORSPolicy = builder.Configuration.GetSection("CORS:AllowAllPolicy:Policy
 
 builder.Host.UseSerilog((context, configuration) => configuration.ReadFrom.Configuration(context.Configuration));
 
-builder.Services.AddRateLimiter(_limiter => {
-    _limiter.AddFixedWindowLimiter(policyName: FixedWindowLimiter.PolicyName , options =>
+builder.Services.AddRateLimiter(_limiter =>
+{
+    _limiter.AddFixedWindowLimiter(policyName: FixedWindowLimiter.PolicyName, options =>
     {
         options.PermitLimit = FixedWindowLimiter.PermitLimit;
         options.Window = TimeSpan.FromSeconds(FixedWindowLimiter.WindowTime);
@@ -55,9 +56,10 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddCors(cors => cors.AddPolicy(name: CORSPolicy, 
-    policy => {
-        policy.WithOrigins("http://localhost:4200");
+builder.Services.AddCors(cors => cors.AddPolicy(name: CORSPolicy,
+    policy =>
+    {
+        policy.WithOrigins("http://localhost:4200").AllowAnyMethod().AllowAnyHeader();
     }
 ));
 

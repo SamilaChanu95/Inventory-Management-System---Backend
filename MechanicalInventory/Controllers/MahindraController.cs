@@ -8,7 +8,7 @@ namespace MechanicalInventory.Controllers
     [Route("api/[controller]")]
     [EnableRateLimiting(policyName: "fixed-rate-limiter")]
     [ApiController]
-    public class MahindraController : Ap
+    public class MahindraController : ControllerBase
     {
         private readonly ILogger<MahindraController> _logger;
         private readonly IMahindraService _mahindraService;

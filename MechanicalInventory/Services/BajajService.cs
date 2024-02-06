@@ -16,7 +16,7 @@ namespace MechanicalInventory.Services
         {
             var sql = "INSERT INTO [bajajProduct]([bajajCode],[productName],[manufacturerYear],[quantity],[qualityLevel],[sellingPrice],[purchasePrice]) VALUES (@bajajCode, @productName, @manufacturerYear, @quantity, @qualityLevel, @sellingPrice, @purchasePrice);";
             var parameters = new DynamicParameters();
-            parameters.Add("bajajCode", bajajProduct.BajajCode, DbType.String);
+            parameters.Add("bajajCode", bajajProduct.ProductCode, DbType.String);
             parameters.Add("productName", bajajProduct.ProductName, DbType.String);
             parameters.Add("manufacturerYear", bajajProduct.ManufacturerYear, DbType.DateTime);
             parameters.Add("quantity", bajajProduct.Quantity, DbType.Int32);
@@ -43,7 +43,7 @@ namespace MechanicalInventory.Services
 
         public async Task<BajajProduct> GetBajajProduct(int id)
         {
-            var sql = $"SELECT * FROM [bajajProduct] WHERE id = '{id}';";
+            var sql = $"SELECT *, [bajajCode] AS productCode FROM [bajajProduct] WHERE id = '{id}';";
             using (var connection = _dataContext.CreateDbConnection())
             {
                 var bajajProduct = await connection.QueryFirstOrDefaultAsync<BajajProduct>(sql);
@@ -53,7 +53,7 @@ namespace MechanicalInventory.Services
 
         public async Task<List<BajajProduct>> GetBajajProductsList()
         {
-            var sql = "SELECT * FROM [bajajProduct] ORDER BY id DESC;";
+            var sql = "SELECT *, [bajajCode] AS productCode FROM [bajajProduct] ORDER BY id DESC;";
             using (var connection = _dataContext.CreateDbConnection())
             {
                 var productList = await connection.QueryAsync<BajajProduct>(sql);
@@ -77,7 +77,7 @@ namespace MechanicalInventory.Services
                 "[quantity] = @quantity, [qualityLevel] = @qualityLevel, [sellingPrice] = @sellingPrice, [purchasePrice] = @purchasePrice WHERE [id] = @id;";
             var parameters = new DynamicParameters();
             parameters.Add("id", bajajProduct.Id, DbType.Int32);
-            parameters.Add("bajajCode", bajajProduct.BajajCode, DbType.String);
+            parameters.Add("bajajCode", bajajProduct.ProductCode, DbType.String);
             parameters.Add("productName", bajajProduct.ProductName, DbType.String);
             parameters.Add("manufacturerYear", bajajProduct.ManufacturerYear, DbType.DateTime);
             parameters.Add("quantity", bajajProduct.Quantity, DbType.Int32);

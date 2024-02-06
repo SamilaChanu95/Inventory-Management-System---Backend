@@ -1,5 +1,4 @@
 ﻿using MechanicalInventory.Models;
-using MechanicalInventory.Models.RateLimiter;
 using MechanicalInventory.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.RateLimiting;
