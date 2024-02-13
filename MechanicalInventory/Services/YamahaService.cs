@@ -14,7 +14,7 @@ namespace MechanicalInventory.Services
         public async Task<bool> AddProduct(YamahaProduct yamahaProduct)
         {
             var sql = "INSERT INTO [yamahaProduct]([yamahaCode],[productName],[originCountry],[manufacturerYear],[packedOn],[quantity],[qualityLevel],[sellingPrice],[purchasePrice]) VALUES (@yamahaCode,@productName,@originCountry,@manufacturerYear,@packedOn,@quantity,@qualityLevel,@sellingPrice,@purchasePrice);";
-            YamahaProduct product = new YamahaProduct() { YamahaCode = yamahaProduct.YamahaCode, ProductName = yamahaProduct.ProductName, OriginCountry = yamahaProduct.OriginCountry, ManufacturerYear = yamahaProduct.ManufacturerYear, PackedOn = yamahaProduct.PackedOn, Quantity = yamahaProduct.Quantity, QualityLevel = yamahaProduct.QualityLevel, SellingPrice = yamahaProduct.SellingPrice, PurchasePrice = yamahaProduct.PurchasePrice };
+            YamahaProduct product = new YamahaProduct() { YamahaCode = yamahaProduct.ProductCode, ProductName = yamahaProduct.ProductName, OriginCountry = yamahaProduct.OriginCountry, ManufacturerYear = yamahaProduct.ManufacturerYear, PackedOn = yamahaProduct.PackedOn, Quantity = yamahaProduct.Quantity, QualityLevel = yamahaProduct.QualityLevel, SellingPrice = yamahaProduct.SellingPrice, PurchasePrice = yamahaProduct.PurchasePrice };
 
             using (var connection = _dataContext.CreateDbConnection())
             {
@@ -35,7 +35,7 @@ namespace MechanicalInventory.Services
 
         public async Task<YamahaProduct> GetProduct(int id)
         {
-            var sql = $"SELECT * FROM [yamahaProduct] WHERE [id] = '{id}';";
+            var sql = $"SELECT *, [yamahaCode] AS productCode FROM [yamahaProduct] WHERE [id] = '{id}';";
             using (var connection = _dataContext.CreateDbConnection())
             {
                 var result = await connection.QueryFirstOrDefaultAsync<YamahaProduct>(sql);
@@ -45,7 +45,7 @@ namespace MechanicalInventory.Services
 
         public async Task<List<YamahaProduct>> GetProductsList()
         {
-            var sql = $"SELECT * FROM [yamahaProduct] ORDER BY [id] DESC;";
+            var sql = $"SELECT *, [yamahaCode] AS productCode FROM [yamahaProduct] ORDER BY [id] DESC;";
             using (var connection = _dataContext.CreateDbConnection())
             {
                 var result = await connection.QueryAsync<YamahaProduct>(sql);
@@ -66,7 +66,7 @@ namespace MechanicalInventory.Services
         public async Task<bool> UpdateProduct(YamahaProduct yamahaProduct)
         {
             var sql = "UPDATE [yamahaProduct] SET [yamahaCode] = @yamahaCode, [productName] = @productName, [originCountry] = @originCountry, [manufacturerYear] = @manufacturerYear, [packedOn] = @packedOn, [quantity] = @quantity, [qualityLevel] = @qualityLevel, [sellingPrice] = @sellingPrice, [purchasePrice] = @purchasePrice WHERE [id] = @id;";
-            YamahaProduct product = new YamahaProduct() { Id = yamahaProduct.Id, YamahaCode = yamahaProduct.YamahaCode, ProductName = yamahaProduct.ProductName, OriginCountry = yamahaProduct.OriginCountry, ManufacturerYear = yamahaProduct.ManufacturerYear, PackedOn = yamahaProduct.PackedOn, Quantity = yamahaProduct.Quantity, QualityLevel = yamahaProduct.QualityLevel, PurchasePrice = yamahaProduct.PurchasePrice, SellingPrice = yamahaProduct.SellingPrice };
+            YamahaProduct product = new YamahaProduct() { Id = yamahaProduct.Id, YamahaCode = yamahaProduct.ProductCode, ProductName = yamahaProduct.ProductName, OriginCountry = yamahaProduct.OriginCountry, ManufacturerYear = yamahaProduct.ManufacturerYear, PackedOn = yamahaProduct.PackedOn, Quantity = yamahaProduct.Quantity, QualityLevel = yamahaProduct.QualityLevel, PurchasePrice = yamahaProduct.PurchasePrice, SellingPrice = yamahaProduct.SellingPrice };
             using (var connection = _dataContext.CreateDbConnection())
             {
                 var result = await connection.ExecuteAsync(sql, product);

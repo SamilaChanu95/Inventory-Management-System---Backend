@@ -4,6 +4,7 @@
     {
         public int Id { get; set; }
         public string? YamahaCode { get; set; }
+        public string? ProductCode { get; set; }
         public string? ProductName { get; set; }
         public string? OriginCountry { get; set; }
         public DateTime? ManufacturerYear { get; set; }

@@ -1,4 +1,5 @@
 using MechanicalInventory.Context;
+using MechanicalInventory.Models.MailHelper;
 using MechanicalInventory.Models.RateLimiter;
 using MechanicalInventory.Services;
 using Microsoft.AspNetCore.RateLimiting;
@@ -52,6 +53,8 @@ builder.Services.AddRateLimiter(_limiter =>
 // var rateLimitPolicy = Policy.RateLimitAsync(2,TimeSpan.FromSeconds(30));
 
 builder.Services.AddControllers();
+
+builder.Services.Configure<EmailSetting>(builder.Configuration.GetSection("EmailSettings"));
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
