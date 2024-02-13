@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34330.188
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MechanicalInventory", "MechanicalInventory\MechanicalInventory.csproj", "{015F6798-039A-4188-8830-D5ED19C4F80B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MechanicalInventory", "MechanicalInventory\MechanicalInventory.csproj", "{015F6798-039A-4188-8830-D5ED19C4F80B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MechanicalInventory.Test", "MechanicalInventory.Test\MechanicalInventory.Test.csproj", "{D9338BEA-F736-4849-9AA0-E23D156B87B0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{015F6798-039A-4188-8830-D5ED19C4F80B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{015F6798-039A-4188-8830-D5ED19C4F80B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{015F6798-039A-4188-8830-D5ED19C4F80B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D9338BEA-F736-4849-9AA0-E23D156B87B0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D9338BEA-F736-4849-9AA0-E23D156B87B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D9338BEA-F736-4849-9AA0-E23D156B87B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D9338BEA-F736-4849-9AA0-E23D156B87B0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
