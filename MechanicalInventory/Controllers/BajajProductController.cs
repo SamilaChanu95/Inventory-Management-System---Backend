@@ -12,15 +12,11 @@ namespace MechanicalInventory.Controllers
     {
         private readonly IBajajService _bajajService;
         private readonly ILogger<BajajProductController> _logger;
-        private readonly IConfiguration _configuration;
-        private string rateLimiter;
 
-        public BajajProductController(IBajajService bajajService, ILogger<BajajProductController> logger, IConfiguration configuration)
+        public BajajProductController(IBajajService bajajService, ILogger<BajajProductController> logger)
         {
             _bajajService = bajajService;
             _logger = logger;
-            _configuration = configuration;
-            rateLimiter = _configuration.GetSection("RateLimit:0:FixedWindow:PolicyName").Value ?? "not-content";
         }
 
         [HttpGet]
@@ -60,8 +56,17 @@ namespace MechanicalInventory.Controllers
                 }
 
                 var result = await _bajajService.AddBajajProduct(bajajProduct);
-                _logger.LogInformation("Successfully added new Bajaj product.");
-                return Ok(result);
+
+                if (result)
+                {
+                    _logger.LogInformation("Successfully added new Bajaj product.");
+                    return Ok(result);
+                }
+                else 
+                {
+                    _logger.LogInformation("Cannot added new Bajaj product.");
+                    return Unauthorized("Cannot added new Bajaj product.");
+                }
             }
             catch (Exception ex)
             {
@@ -116,8 +121,16 @@ namespace MechanicalInventory.Controllers
                 if (await _bajajService.IsExistProduct(id))
                 {
                     var result = await _bajajService.DeleteBajajProduct(id);
-                    _logger.LogInformation($"Successfully deleted existing Bajaj product with id : {id}");
-                    return Ok(result);
+                    if (result)
+                    {
+                        _logger.LogInformation($"Successfully deleted existing Bajaj product with id : {id}.");
+                        return Ok(result);
+                    }
+                    else 
+                    {
+                        _logger.LogInformation($"Cannot delete existing Bajaj product with id : {id}.");
+                        return Unauthorized($"Cannot delete existing Bajaj product with id : {id}.");
+                    }  
                 }
                 else
                 {
@@ -147,8 +160,16 @@ namespace MechanicalInventory.Controllers
                 if (await _bajajService.IsExistProduct(bajajProduct.Id))
                 {
                     var result = await _bajajService.UpdateBajajProduct(bajajProduct);
-                    _logger.LogInformation("Successfully updated existing Bajaj product.");
-                    return Ok(result);
+                    if (result)
+                    {
+                        _logger.LogInformation("Successfully updated existing Bajaj product.");
+                        return Ok(result);
+                    }
+                    else 
+                    {
+                        _logger.LogInformation($"Cannot updated existing Bajaj product with id : {bajajProduct.Id}.");
+                        return Unauthorized($"Cannot updated existing Bajaj product with id : {bajajProduct.Id}.");
+                    }
                 }
                 else
                 {
