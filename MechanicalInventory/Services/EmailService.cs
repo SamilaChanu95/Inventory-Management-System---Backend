@@ -27,10 +27,10 @@ namespace MechanicalInventory.Services
             _configuration = configuration;
         }
 
-        // This method fro send the email message
+        // This method for send the email message
         public bool SendEmailThroughBrevo(MailRequest mailRequest)
         {
-            // This is normal way of sending emails via using Mailkit & Mimekit Nuget Packages
+            // This is normal way of sending emails via using MailKit & MimeKit Nuget Packages
             /* try
             {
                 var email = new MimeMessage();
@@ -59,6 +59,7 @@ namespace MechanicalInventory.Services
                 return false;
             } */
 
+            // This is way to send the email using Bervo
             string? apiKey = _configuration.GetSection("Bervo:HttpApiKey").Value;
 
             Configuration.Default.ApiKey.Add("api-key", apiKey);
@@ -140,7 +141,7 @@ namespace MechanicalInventory.Services
             return style;
         }
 
-        // This method for send the emails for multiple users
+        // This method for send the emails for multiple users with Sendgrid
         public async Task<bool> SendEmailThroughSengrid(MailRequest mailRequest) 
         {
             string? api = _configuration.GetSection("Sendgrid:ApiKey").Value;
