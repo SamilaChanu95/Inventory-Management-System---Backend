@@ -83,6 +83,7 @@ builder.Services.AddScoped<IMahindraService, MahindraService>();
 builder.Services.AddScoped<IKawasakiService, KawasakiService>();
 builder.Services.AddScoped<ISuzukiService, SuzukiService>();
 builder.Services.AddScoped<IDemarkService, DemarkService>();
+builder.Services.AddTransient<IEmailService, EmailService>();
 
 var app = builder.Build();
 
